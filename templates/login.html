@@ -63,11 +63,17 @@
         <div class="container">
             <div class="content">
                 <h2>Login</h2><br>
+                {% for message in messages  %}
+            <h6 style="color:red">{{message}}</h6>
+                
+            {% endfor %}
                 <form method="post">
                     {% csrf_token %}
                     <input type="text" name="uname" placeholder="Username" required class="form-control"><br><br>
                     <input type="password" name="pswd" placeholder="Password" required class="form-control"><br><br>
                     <button type="submit" class="btn btn-info">Login</button>
+<br><br>
+                    Dont have an account register <a href="{%url 'SignUp' %}">Here</a>
 
                 </form>
             </div>

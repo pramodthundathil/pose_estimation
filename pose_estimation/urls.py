@@ -23,5 +23,7 @@ urlpatterns = [
     path("",views.SignIn, name= "SignIn"),
     path("SignOut",views.SignOut, name= "SignOut"),
     path("livefeed",views.livefeed,name="livefeed"),
+    path("SignUp",views.SignUp,name="SignUp"),
+
     
 ]

@@ -9,6 +9,14 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
+from django.contrib.auth import authenticate, login,logout
+from .forms import UserAddForm
+
+from django.contrib import messages
+from django.contrib.auth.models import User,Group
+
+
+
 def findAngle(img, lmList, p1, p2, p3, draw=False):
     x1, y1 = lmList[p1][1:]
     x2, y2 = lmList[p2][1:]
@@ -103,6 +111,31 @@ def livefeed(request):
 
 def Index(request):
     return render(request, 'index.html')
+
+def SignUp(request):
+    form = UserAddForm()
+    if request.method == "POST":
+        form = UserAddForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            email = form.cleaned_data.get("email")
+            if User.objects.filter(username = username).exists():
+                messages.info(request,"Username Exists")
+                return redirect('SignUp')
+            if User.objects.filter(email = email).exists():
+                messages.info(request,"Email Exists")
+                return redirect('SignUp')
+            else:
+                new_user = form.save()
+                new_user.save()
+                
+                # group = Group.objects.get(name='user')
+                # new_user.groups.add(group) 
+                
+                messages.success(request,"User Created")
+                return redirect('SignIn')
+            
+    return render(request,"register.html",{"form":form})
 
 def SignIn(request):
     if request.method == "POST":
