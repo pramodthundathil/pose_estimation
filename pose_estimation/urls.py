@@ -19,6 +19,9 @@ from Home import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("",views.Index, name= "index"),
-    path("livefeed",views.livefeed,name="livefeed")
+    path("Index",views.Index, name= "Index"),
+    path("",views.SignIn, name= "SignIn"),
+    path("SignOut",views.SignOut, name= "SignOut"),
+    path("livefeed",views.livefeed,name="livefeed"),
+    
 ]

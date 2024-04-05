@@ -5,7 +5,9 @@ from django.views.decorators import gzip
 import threading
 from .import posemodule as pm
 import math
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 
 def findAngle(img, lmList, p1, p2, p3, draw=False):
     x1, y1 = lmList[p1][1:]
@@ -101,3 +103,26 @@ def livefeed(request):
 
 def Index(request):
     return render(request, 'index.html')
+
+def SignIn(request):
+    if request.method == "POST":
+        username = request.POST['uname']
+        password = request.POST['pswd']
+        user1 = authenticate(request, username = username , password = password)
+        
+        if user1 is not None:
+            
+            request.session['username'] = username
+            request.session['password'] = password
+            login(request, user1)
+            return redirect('Index')
+        
+        else:
+            messages.info(request,'Username or Password Incorrect')
+            return redirect('SignIn')
+    return render(request,"login.html")
+
+
+def SignOut(request):
+    logout(request)
+    return redirect("SignIn")
